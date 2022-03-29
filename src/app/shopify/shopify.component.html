@@ -1,0 +1,18 @@
+<!-- Line chart -->
+<div style="text-align:cente;">
+    <apx-chart #chart [series]="chartOptions.series" [colors]="['#271cd7']" [chart]="chartOptions.chart"
+        [xaxis]="chartOptions.xaxis" [title]="chartOptions.title"
+        [yaxis]="chartOptions.yaxis"
+        [stroke]="chartOptions.stroke"
+        [colors]="chartOptions.colors"></apx-chart>
+</div>
+
+<!-- Bar chart -->
+<div style="text-align:cente; width: 600px;">
+    <apx-chart #chart [series]="chartOptions1.series" [chart]="chartOptions1.chart" [xaxis]="chartOptions1.xaxis"
+        [title]="chartOptions1.title" [yaxis]="chartOptions1.yaxis" [stroke]="chartOptions1.stroke"
+        [tooltip]="chartOptions1.tooltip" [fill]="chartOptions1.fill" [stroke]="chartOptions1.stroke"
+        [dataLabels]="chartOptions1.dataLabels" [plotOptions]="chartOptions1.plotOptions"></apx-chart>
+</div>
+
+<button type="button" (click)="naviation()">Go for faceBook</button>

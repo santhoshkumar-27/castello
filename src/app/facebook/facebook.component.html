@@ -1,0 +1,45 @@
+<apx-chart [series]="reach.series" [chart]="reach.chart" [xaxis]="reach.xaxis" [stroke]="reach.stroke"
+    [tooltip]="reach.tooltip" [dataLabels]="reach.dataLabels" [legend]="reach.legend" [grid]="reach.grid"
+    [yaxis]="reach.yaxis" [title]="reach.title" [colors]="reach.colors"></apx-chart>
+
+<!-- [markers]="chartOptions.markers"
+    [fill]="chartOptions.fill"
+-->
+
+
+<div style="text-align:center; width: 600px;">
+    <apx-chart #chart [series]="impressions.series" [chart]="impressions.chart" [xaxis]="impressions.xaxis"
+        [title]="impressions.title" [yaxis]="impressions.yaxis" [stroke]="impressions.stroke"
+        [tooltip]="impressions.tooltip" [fill]="impressions.fill" [stroke]="impressions.stroke"
+        [dataLabels]="impressions.dataLabels" [plotOptions]="impressions.plotOptions" [colors]="impressions.colors">
+    </apx-chart>
+</div>
+
+<div style="text-align:center; width: 900px;">
+    <apx-chart #chart [series]="ageRange.series" [chart]="ageRange.chart" [xaxis]="ageRange.xaxis"
+        [title]="ageRange.title" [yaxis]="ageRange.yaxis" [stroke]="ageRange.stroke" [tooltip]="ageRange.tooltip"
+        [fill]="ageRange.fill" [stroke]="ageRange.stroke" [dataLabels]="ageRange.dataLabels"
+        [plotOptions]="ageRange.plotOptions" [colors]="ageRange.colors">
+    </apx-chart>
+</div>
+
+<div style="text-align: center; width: 900px;">
+    <apx-chart [colors]="gender.colors" [series]="gender.series" [chart]="gender.chart" [labels]="gender.labels"
+        [responsive]="gender.responsive" [legend]="gender.legend"></apx-chart>
+</div>
+<apx-chart
+[series]="followerCount.series"
+[chart]="followerCount.chart"
+[labels]="followerCount.labels"
+[dataLabels]="followerCount.dataLabels"
+[title]="followerCount.title"
+[fill]="followerCount.fill"
+[states]="followerCount.states"
+[plotOptions]="followerCount.plotOptions"
+[stroke]="followerCount.stroke"
+[theme]="followerCount.theme"
+[responsive]="followerCount.responsive"
+[colors]="followerCount.colors"
+[legend]="followerCount.legend"
+></apx-chart>
+<button type="button" (click)="navigation()">go for shopify</button>
