@@ -1,18 +1,19 @@
 <!-- Line chart -->
 <div style="text-align:cente;">
-    <apx-chart #chart [series]="chartOptions.series" [colors]="['#271cd7']" [chart]="chartOptions.chart"
-        [xaxis]="chartOptions.xaxis" [title]="chartOptions.title"
-        [yaxis]="chartOptions.yaxis"
-        [stroke]="chartOptions.stroke"
-        [colors]="chartOptions.colors"></apx-chart>
+    <apx-chart #chart [series]="sales.series" [colors]="['#271cd7']" [chart]="sales.chart"
+        [xaxis]="sales.xaxis" [title]="sales.title"
+        [yaxis]="sales.yaxis"
+        [stroke]="sales.stroke"
+        [colors]="sales.colors"
+        [noData]="sales.noData"></apx-chart>
 </div>
 
 <!-- Bar chart -->
 <div style="text-align:cente; width: 600px;">
-    <apx-chart #chart [series]="chartOptions1.series" [chart]="chartOptions1.chart" [xaxis]="chartOptions1.xaxis"
-        [title]="chartOptions1.title" [yaxis]="chartOptions1.yaxis" [stroke]="chartOptions1.stroke"
-        [tooltip]="chartOptions1.tooltip" [fill]="chartOptions1.fill" [stroke]="chartOptions1.stroke"
-        [dataLabels]="chartOptions1.dataLabels" [plotOptions]="chartOptions1.plotOptions"></apx-chart>
+    <apx-chart #chart1 [series]="order.series" [chart]="order.chart" [xaxis]="order.xaxis"
+        [title]="order.title" [yaxis]="order.yaxis" [stroke]="order.stroke"
+        [tooltip]="order.tooltip" [fill]="order.fill" [stroke]="order.stroke"
+        [dataLabels]="order.dataLabels" [plotOptions]="order.plotOptions" [noData]="order.noData"></apx-chart>
 </div>
 
 <button type="button" (click)="naviation()">Go for faceBook</button>

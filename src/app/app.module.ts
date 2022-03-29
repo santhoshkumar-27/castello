@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { FacebookComponent } from './facebook/facebook.component';
 import { ShopifyComponent } from './shopify/shopify.component';
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent,
@@ -15,7 +16,8 @@ import { ShopifyComponent } from './shopify/shopify.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgApexchartsModule
+    NgApexchartsModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

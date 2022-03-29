@@ -1,6 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexGrid, ApexLegend, ApexMarkers, ApexNonAxisChartSeries, ApexPlotOptions, ApexResponsive, ApexStates, ApexStroke, ApexTheme, ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis } from 'ng-apexcharts';
+import { 
+  ApexAxisChartSeries,
+  ApexChart, 
+  ApexDataLabels, 
+  ApexFill, 
+  ApexGrid, 
+  ApexLegend, 
+  ApexMarkers, 
+  ApexNoData, 
+  ApexNonAxisChartSeries, 
+  ApexPlotOptions, 
+  ApexResponsive, 
+  ApexStates, 
+  ApexStroke, 
+  ApexTheme, 
+  ApexTitleSubtitle, 
+  ApexTooltip, 
+  ApexXAxis, 
+  ApexYAxis, 
+  ChartComponent } from 'ng-apexcharts';
+import { FacebookService } from '../shared/facebook/facebook.service';
 
 export interface ReachI {
   series: ApexAxisChartSeries;
@@ -16,6 +36,7 @@ export interface ReachI {
   title: ApexTitleSubtitle;
   // fill: ApexFill;
   colors: string[];
+  noData: ApexNoData;
 }
 
 export type ImpressionsI = {
@@ -30,6 +51,7 @@ export type ImpressionsI = {
   fill: ApexFill;
   tooltip: ApexTooltip;
   colors: string[];
+  noData: ApexNoData;
 };
 
 export type AgeRangeI = {
@@ -44,6 +66,7 @@ export type AgeRangeI = {
   fill: ApexFill;
   tooltip: ApexTooltip;
   colors: string[];
+  noData: ApexNoData;
 };
 
 export type GenderI = {
@@ -52,7 +75,8 @@ export type GenderI = {
   responsive: ApexResponsive[];
   labels: any;
   legend: ApexLegend;
-  colors: string[]
+  colors: string[];
+  noData: ApexNoData;
 };
 
 export type FollowerCountI = {
@@ -69,6 +93,7 @@ export type FollowerCountI = {
   plotOptions: ApexPlotOptions;
   dataLabels: ApexDataLabels;
   colors: string[];
+  noData: ApexNoData;
 };
 
 
@@ -78,14 +103,22 @@ export type FollowerCountI = {
   styleUrls: ['./facebook.component.scss']
 })
 export class FacebookComponent implements OnInit {
+  @ViewChild('reachChart') reachChart!: ChartComponent;
+  @ViewChild('impressionsChart') impressionsChart!: ChartComponent;
+  @ViewChild('ageRangeChart') ageRangeChart!: ChartComponent;
+  @ViewChild('genderChart') genderChart!: ChartComponent;
+  @ViewChild('followerCountChart') followerCountChart!: ChartComponent;
   public reach!: ReachI;
   public impressions!: ImpressionsI;
   public ageRange!: AgeRangeI;
   public gender!: GenderI;
   public followerCount!: FollowerCountI;
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private fbs: FacebookService) {
     this.renderChart();
+    this.getFacebookData()
   }
 
   ngOnInit(): void {
@@ -94,17 +127,10 @@ export class FacebookComponent implements OnInit {
   renderChart() {
     this.reach = {
       colors: ['#001fb4', '#d71ef9'],
-      series: [
-        {
-          name: "campaign 1",
-          data: [900, 800, 610, 310, 515, 600, 890, 1500]
-        },
-        {
-          name: "campaign 2",
-          data: [100, 450, 300, 500, 150, 340, 450, 150]
-        },
-
-      ],
+      noData: {
+        text: 'loading...'
+      },
+      series: [],
       chart: {
         height: 350,
         type: "line"
@@ -165,16 +191,10 @@ export class FacebookComponent implements OnInit {
 
     this.impressions = {
       colors: ['#001fb4', '#d71ef9'],
-      series: [
-        {
-          name: "campaign 1",
-          data: [900, 800, 610, 310, 515, 600, 890, 1500]
-        },
-        {
-          name: "campaign 2",
-          data: [100, 450, 300, 500, 150, 340, 450, 150]
-        },
-      ],
+      noData: {
+        text: 'loading...'
+      },
+      series: [],
       chart: {
         type: "bar",
         height: 350
@@ -235,32 +255,10 @@ export class FacebookComponent implements OnInit {
 
     this.ageRange = {
       colors: ['#001fb4', '#0f32e1', '#6421f5', '#9720f8', '#c41df1', '#f11cf9'],
-      series: [
-        {
-          name: "18-24 Yrs",
-          data: [300, 600, 610, 310, 515, 600, 890, 1500]
-        },
-        {
-          name: "25-34 Yrs",
-          data: [400, 750, 300, 500, 150, 340, 450, 150]
-        },
-        {
-          name: "34-44 Yrs",
-          data: [500, 600, 692, 653, 365, 884, 631, 984]
-        },
-        {
-          name: "45-54 Yrs",
-          data: [600, 300, 986, 895, 694, 665, 652, 652]
-        },
-        {
-          name: "54-64 Yrs",
-          data: [700, 950, 897, 654, 652, 654, 361, 321]
-        },
-        {
-          name: "65+ Yrs",
-          data: [800, 854, 635, 875, 653, 981, 652, 651]
-        },
-      ],
+      noData: {
+        text: 'loading...'
+      },
+      series: [],
       chart: {
         type: "bar",
         height: 350
@@ -321,7 +319,10 @@ export class FacebookComponent implements OnInit {
 
     this.gender = {
       colors: ['#001fb4', '#d71ef9', '#707070'],
-      series: [1565, 805, 140],
+      noData: {
+        text: 'loading...'
+      },
+      series: [],
       chart: {
         type: "donut",
         width: 500,
@@ -346,8 +347,11 @@ export class FacebookComponent implements OnInit {
     };
 
     this.followerCount = {
+      noData: {
+        text: 'loading...'
+      },
       colors: ['#0e1fb8'],
-      series: [868],
+      series: [],
       chart: {
         width: 380,
         type: "donut",
@@ -481,6 +485,50 @@ export class FacebookComponent implements OnInit {
     };
   }
 
+  getFacebookData() {
+    setTimeout(() => {
+      this.getReachData();
+      this.getImpressionsData();
+      this.getAgeRangeData();
+      this.getGenderData();
+      this.getFollowerCountData();
+    }, 3000)
+  }
+  getReachData() {
+    this.fbs.getReachData().subscribe(
+      (res: any) => {
+        this.reachChart.updateSeries([...res.data.reach], true)
+      }
+    )
+  }
+  getImpressionsData() {
+    this.fbs.getReachData().subscribe(
+      (res: any) => {
+        this.impressionsChart.updateSeries([...res.data.impression], true)
+      }
+    )
+  }
+  getAgeRangeData() {
+    this.fbs.getReachData().subscribe(
+      (res: any) => {
+        this.ageRangeChart.updateSeries([...res.data.ageRange], true)
+      }
+    )
+  }
+  getGenderData() {
+    this.fbs.getReachData().subscribe(
+      (res: any) => {
+        this.genderChart.updateSeries([...res.data.gender], true)
+      }
+    )
+  }
+  getFollowerCountData() {
+    this.fbs.getReachData().subscribe(
+      (res: any) => {
+        this.followerCountChart.updateSeries([...res.data.followercount], true)
+      }
+    )
+  }
   navigation() {
     this.router.navigateByUrl('shopify')
   }

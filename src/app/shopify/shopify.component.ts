@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { ChartComponent, ApexAxisChartSeries, ApexChart, ApexXAxis, ApexTitleSubtitle, ApexYAxis, ApexStroke, ApexPlotOptions, ApexDataLabels, ApexFill, ApexTooltip } from "ng-apexcharts";
+import { ChartComponent, ApexAxisChartSeries, ApexChart, ApexXAxis, ApexTitleSubtitle, ApexYAxis, ApexStroke, ApexPlotOptions, ApexDataLabels, ApexFill, ApexTooltip, ApexNoData } from "ng-apexcharts";
+import { ShopifyService } from '../shared/shopify/shopify.service';
 
 export type ChartOptionsI = {
   series: ApexAxisChartSeries;
@@ -10,6 +11,7 @@ export type ChartOptionsI = {
   title: ApexTitleSubtitle;
   stroke: ApexStroke;
   colors: string[];
+  noData: ApexNoData;
 };
 
 export type ChartOptions1I = {
@@ -23,35 +25,40 @@ export type ChartOptions1I = {
   dataLabels: ApexDataLabels;
   fill: ApexFill;
   tooltip: ApexTooltip;
+  noData: ApexNoData;
   // colors: string[];
 };
 @Component({
   selector: 'app-shopify',
   templateUrl: './shopify.component.html',
-  styleUrls: ['./shopify.component.scss']
+  styleUrls: ['./shopify.component.scss'],
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ShopifyComponent {
   @ViewChild("chart") chart!: ChartComponent;
-  public chartOptions!: ChartOptionsI;
-  public chartOptions1!: ChartOptions1I;
-  constructor(private router: Router) {
+  @ViewChild("chart1") chart1!: ChartComponent;
+  public sales!: ChartOptionsI;
+  public order!: ChartOptions1I;
+  constructor(
+    private router: Router,
+    private shopify: ShopifyService,
+    private changeDetectorRef: ChangeDetectorRef) {
     this.renderChart()
+    this.getShopifyData();
   }
   renderChart() {
-    this.chartOptions = {
+    this.sales = {
       colors: ['#271cd7'],
-      series: [
-        {
-          name: "My-series",
-          data: [1000, 4500, 3000, 5000, 1500, 3400, 4500, 1500]
-        }
-      ],
+      series: [],
       chart: {
         height: 350,
         type: "line"
       },
       title: {
         text: "Sales"
+      },
+      noData: {
+        text: 'loading...'
       },
       yaxis: {
         tickAmount: 4,
@@ -79,19 +86,21 @@ export class ShopifyComponent {
         },
       }
     };
-    this.chartOptions1 = {
-      series: [
-        {
-          name: "Net Profit",
-          data: [1130, 900, 1400, 1110, 810, 1100, 1250]
-        }
-      ],
+    this.order = {
+      series: [],
       chart: {
         type: "bar",
         height: 350
       },
       title: {
         text: "orders"
+      },
+      noData: {
+        text: 'loading...',
+        style: {
+          color: '#271cd7',
+          fontSize: '2rem'
+        }
       },
       plotOptions: {
         bar: {
@@ -120,7 +129,7 @@ export class ShopifyComponent {
                 to: 1500,
                 color: "#5c1ad1"
               },
-              
+
             ],
             backgroundBarColors: [],
             backgroundBarOpacity: 1,
@@ -167,7 +176,37 @@ export class ShopifyComponent {
       }
     }
   }
-  naviation () {
+  getShopifyData() {
+    this.getSalesData();
+    this.getOrderData();
+  }
+  // For Sales chart
+  getSalesData() {
+    this.shopify.getSalesData().subscribe(
+      (res: number[]) => {
+        const sales = res;
+        this.chart.updateSeries([{
+          name: 'Sales',
+          data: [...sales]
+        }], true)
+        console.log('res', sales)
+      }
+    )
+  }
+  // For Order chart
+  getOrderData() {
+    this.shopify.getOrderData().subscribe(
+      (res: number[]) => {
+        const order = res;
+        this.chart1.updateSeries([{
+          name: 'orders',
+          data: [...order]
+        }])
+        console.log('res', order)
+      }
+    )
+  }
+  naviation() {
     this.router.navigateByUrl('/facebook')
   }
 }
