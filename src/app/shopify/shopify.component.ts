@@ -189,7 +189,6 @@ export class ShopifyComponent {
           name: 'Sales',
           data: [...sales]
         }], true)
-        console.log('res', sales)
       }
     )
   }
@@ -202,7 +201,6 @@ export class ShopifyComponent {
           name: 'orders',
           data: [...order]
         }])
-        console.log('res', order)
       }
     )
   }
